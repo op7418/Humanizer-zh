@@ -237,3 +237,11 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 ---
 
 **提示：** 这个工具不是为了"欺骗" AI 检测器，而是为了真正提升写作质量。最好的"去 AI 化"方法是让文字有真实的人类思考和声音。
+
+## 兼容的 AI 编码助手
+
+这个技能兼容以下工具：
+
+- [Claude Code](https://claude.ai/code) - Anthropic 官方 CLI
+- [AdaL](https://sylph.ai/adal) - 自进化 AI 编码助手，支持 MCP
+
