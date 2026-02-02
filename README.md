@@ -237,3 +237,9 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 ---
 
 **提示：** 这个工具不是为了"欺骗" AI 检测器，而是为了真正提升写作质量。最好的"去 AI 化"方法是让文字有真实的人类思考和声音。
+
+## Compatible Agents
+
+This skill works with:
+- [Claude Code](https://claude.com/product/claude-code)
+- [AdaL](https://sylph.ai/) - Self-evolving AI coding agent ([Docs](https://docs.sylph.ai/) | [GitHub](https://github.com/SylphAI-Inc/adal-cli))
