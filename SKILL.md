@@ -43,6 +43,58 @@ metadata:
 
 ---
 
+## URL 原文获取（可选）
+
+如果你收到的是一个 URL 而不是原始文本，技能会先抓取 URL 内容，再进行人性化处理。
+
+### 工作流程
+
+1. 收到 URL，识别其类型（网页、纯文本文件、PDF 等）
+2. 使用 `web_extract` 或 `terminal` + `curl` 抓取内容
+3. 将抓取到的文本作为输入，执行标准的人类化处理流程
+4. 返回人性化后的结果
+
+### 支持的 URL 来源
+
+| 来源类型 | 抓取方式 | 说明 |
+|----------|----------|------|
+| **网页** | `web_extract` | 通用选择，支持新闻、博客、文档类页面 |
+| **GitHub 原始文件**（.txt、.md） | `web_extract` | 直接访问 raw.githubusercontent.com |
+| **公开文档**（.txt、.md） | `web_extract` | 直链文本文件 |
+| **PDF** | `web_extract` | 部分 PDF 可直接抓取（arxiv、各类公开文档） |
+
+> 注意：需要登录或验证的页面、Cloudflare 保护站点、部分 SaaS 后台文档可能无法抓取。无法抓取时，请将原始文本直接粘贴给技能处理。
+
+### 使用示例
+
+**输入（URL）：**
+```
+/humanizer-zh 请帮我人性化这篇文章：https://example.com/blog/ai-writing-tips
+```
+
+**处理过程：**
+1. 抓取 `https://example.com/blog/ai-writing-tips` 的页面内容
+2. 对抓取到的文本进行人类化处理
+3. 返回改写后的文本
+
+**输入（纯文本 URL）：**
+```
+请人性化这个文档的内容：https://raw.githubusercontent.com/user/repo/main/README.md
+```
+
+**输入（PDF）：**
+```
+请人性化这篇论文：https://arxiv.org/pdf/2301.12345.pdf
+```
+
+### 无法抓取时的处理
+
+如果 URL 不可访问或抓取失败，技能会：
+1. 说明无法抓取该 URL
+2. 请你直接粘贴要处理的文本内容
+
+---
+
 ## 个性与灵魂
 
 避免 AI 模式只是工作的一半。无菌、没有声音的写作和机器生成的内容一样明显。好的写作背后有一个真实的人。
