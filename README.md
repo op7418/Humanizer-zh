@@ -122,7 +122,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 
 ## 检测的 AI 写作模式
 
-本工具能够识别并修复 **24 种** AI 写作痕迹，分为四大类：
+本工具能够识别并修复 **27 种** AI 写作痕迹，分为五大类：
 
 ### 📝 内容模式（6种）
 1. 过度强调意义、遗产和更广泛的趋势
@@ -156,6 +156,11 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 23. 过度限定
 24. 通用积极结论
 
+### 🎵 节奏与腔调模式（3种）
+25. 人造金句与短句连击
+26. 格言公式
+27. 假坦诚开场
+
 ## 文件说明
 
 - **`SKILL.md`** - 中文版技能定义文件
@@ -167,7 +172,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 
 ### 基本流程
 
-1. **识别 AI 模式** - 对照 `SKILL.md` 中列出的 24 种模式扫描文本
+1. **识别 AI 模式** - 对照 `SKILL.md` 中列出的 27 种模式扫描文本
 2. **重写问题片段** - 用自然的表达替换 AI 痕迹
 3. **保留核心含义** - 确保信息完整性
 4. **维持适当语调** - 匹配文本应有的风格
