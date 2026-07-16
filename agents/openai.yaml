@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humanizer 中文润色"
+  short_description: "减少中文文本的 AI 写作痕迹，适用于自然改写、润色和人工感审查"
+  default_prompt: "使用 $humanizer-zh 润色这段中文，使表达自然、有个性，并保留原意和事实。"

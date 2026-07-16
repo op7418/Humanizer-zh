@@ -57,6 +57,30 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 
 如果安装成功，该技能将被激活。
 
+### Codex 安装（补充支持）
+
+Codex 用户可以将同一个仓库克隆到用户级 skills 目录；这不会影响上面的 Claude Code 安装方式。
+
+**macOS/Linux：**
+
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.codex/skills/humanizer-zh
+```
+
+**Windows PowerShell：**
+
+```powershell
+git clone https://github.com/op7418/Humanizer-zh.git "$HOME\.codex\skills\humanizer-zh"
+```
+
+重启 Codex 后，可以显式调用：
+
+```text
+$humanizer-zh
+```
+
+也可以直接要求 Codex “用 humanizer-zh 润色这段中文”。`agents/openai.yaml` 为 Codex 提供技能列表和默认提示词等界面元数据；核心规则仍由同一份 `SKILL.md` 提供，因此 Claude Code 和 Codex 可以共享此技能。
+
 ## 使用
 
 ### 基础用法
@@ -159,6 +183,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 ## 文件说明
 
 - **`SKILL.md`** - 中文版技能定义文件
+- **`agents/openai.yaml`** - Codex 技能列表和默认提示词元数据
 - **`README.md`** - 本说明文档
 
 **注：** 英文原版请参考 [blader/humanizer](https://github.com/blader/humanizer)
