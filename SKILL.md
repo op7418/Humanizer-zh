@@ -482,3 +482,154 @@ metadata:
 本技能基于 [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)，由 WikiProject AI Cleanup 维护。那里记录的模式来自对维基百科上数千个 AI 生成文本实例的观察。
 
 关键见解：**"LLM 使用统计算法来猜测接下来应该是什么。结果倾向于适用于最广泛情况的统计上最可能的结果。"**
+
+
+---
+
+## v2.9.1 新增规则（blader 上游同步，op7418 仓库未跟进）
+
+> 以下 9 条规则来自 blader/humanizer v2.9.1，op7418/Humanizer-zh 仓库当前未同步。本地版本已补齐。
+>
+> 编号与 blader 上游完全对齐，保留以下映射关系：
+> - 现有"破折号过度使用"= 上游 §14
+> - 现有"粗体过度使用"= 上游 §15
+> - … 以此类推
+> - "被动语态"插在 §12 之后，破折号之前
+> - §26-33 全部为新增
+
+### 13. 被动语态和无主语句子
+
+**问题：** LLM 经常隐藏动作主体，或者直接丢掉主语，比如"无需配置文件"、"结果自动保存"。当主动语态能让句子更清晰直接时，重写它们。
+
+**改写前：**
+> 无需配置文件。结果自动保存。
+
+**改写后：**
+> 你不需要配置文件。系统会自动保存结果。
+
+---
+
+### 26. 连字符复合词过度使用
+
+**需要留意的词：** third-party、cross-functional、client-facing、data-driven、decision-making、well-known、high-quality、real-time、long-term、end-to-end
+
+**问题：** AI 在所有位置都用一致的连字符，包括谓语位置（如 "the report is high-quality"）。人类用法不统一——通常只在定语位置加连字符（"a high-quality report"），后面跟名词时常常省略（"the report is high quality"）。保留定语位置的连字符，谓语位置去掉。
+
+**改写前：**
+> The cross-functional team delivered a high-quality, data-driven report. The team is cross-functional, the report is high-quality, and the methodology is data-driven.
+
+**改写后：**
+> The cross-functional team delivered a high-quality, data-driven report. The team is cross functional, the report is high quality, and the methodology is data driven.
+
+---
+
+### 27. 权威说服陷阱
+
+**需要留意的短语：** The real question is、at its core、in reality、what really matters、fundamentally、the deeper issue、the heart of the matter
+
+**问题：** LLM 用这些短语假装自己正在穿透噪音直达某个深层真理，但后面跟的句子通常只是用更多仪式感重述一个普通观点。
+
+**改写前：**
+> The real question is whether teams can adapt. At its core, what really matters is organizational readiness.
+
+**改写后：**
+> The question is whether teams can adapt. That mostly depends on whether the organization is ready to change its habits.
+
+---
+
+### 28. 自指性提示语
+
+**需要留意的短语：** Let's dive in、let's explore、let's break this down、here's what you need to know、now let's look at、without further ado
+
+**问题：** LLM 习惯先宣告自己接下来要做什么，而不是直接去做。这种元评论拖慢节奏，让文字充满教程脚本感。
+
+**改写前：**
+> Let's dive into how caching works in Next.js. Here's what you need to know.
+
+**改写后：**
+> Next.js caches data at multiple layers, including request memoization, the data cache, and the router cache.
+
+---
+
+### 29. 碎片化标题
+
+**需要留意的迹象：** 标题后面跟着一行段落，只是把标题重述一遍，然后才进入正文。
+
+**问题：** LLM 经常在标题后加一句笼统的句子作为"修辞热场"。这通常什么都没加，只是让文字显得臃肿。
+
+**改写前：**
+> ## 性能
+>
+> 速度很重要。
+>
+> 当用户打开慢页面时，他们会离开。
+
+**改写后：**
+> ## 性能
+>
+> 当用户打开慢页面时，他们会离开。
+
+---
+
+### 30. Diff 锚定写作
+
+**问题：** 文档或注释写成"叙述变化"的方式，而不是"描述事物本身"。除非文档天然是版本范围的（changelog、release notes、migration guide），否则它应该独立读起来连贯，无需知道上一版 commit 改了什么。
+
+**改写前：**
+> 这个函数是为了替换之前那种遍历所有项的方法而加的，原方法导致 O(n²) 性能。
+
+**改写后：**
+> 这个函数用哈希表实现 O(1) 查找，避免朴素遍历的 O(n²) 开销。
+
+---
+
+### 31. 制造金句与断句戏剧
+
+**问题：** LLM 经常让每句话都像值得引用的金句收尾，然后用短促的陈述句堆叠制造戏剧感。单句短句用于强调是 OK 的，连片短句就开始显得刻意。
+
+**改写前：**
+> 然后 AlphaEvolve 出现了。它对对称没有偏好。没有美学先验。没有人文审美的怀旧。旧规则消失了。
+
+**改写后：**
+> AlphaEvolve 改变了搜索方式，因为它不偏向对称或人类审美的设计，这反过来让一些旧的假设变得不那么有用。
+
+---
+
+### 32. 警句公式
+
+**需要留意的词：** X is the Y of Z、X becomes a trap、X is not a tool but a mirror、the language of、the currency of、the architecture of
+
+**问题：** LLM 把普通观点变成可复用的警句，听起来深刻但没增加精度。把公式换成它实际想指的具象意思。
+
+**改写前：**
+> 对称是信任的语言。效率在团队忘记人的层面时就会变成陷阱。
+
+**改写后：**
+> 对称的布局通常让用户感觉更可预测。团队可能过度优化工作流，忽略了人实际使用产品的方式。
+
+---
+
+### 33. 对话式修辞开场
+
+**需要留意的短语：** Honestly?、Look、Here's the thing、The thing is、Let's be honest、Real talk——当作为独立钩子或普通观点前的"假坦率"停顿时。
+
+**问题：** LLM 用假坦率的钩子制造亲密感，再讲一个常规观点。识别特征是戏剧性的停顿-揭示：一个单词的问题或插入语，然后是"真正的"答案。一个真正坦率的人通常就直接说了。
+
+**改写前：**
+> 值不值这个价？老实说？取决于你多久用一次。
+
+**改写后：**
+> 是否值这个价取决于你多久用一次。
+
+---
+
+## 升级说明
+
+本版本已同步 blader/humanizer v2.9.1（共 33 条规则）。
+
+| 项 | 状态 |
+|---|---|
+| 上游版本 | blader/humanizer v2.9.1（30+ 条规则，2026 年活跃维护） |
+| op7418 仓库版本 | 24 条规则，与上游脱节 |
+| 本地版本（当前文件） | 24 条原有 + 9 条 v2.9.1 新增补齐 = 33 条 |
+| 未来升级 | 直接 `gh repo clone blader/humanizer` 校对上游 diff，参考本文件的「v2.9.1 新增规则」区块的写法翻译新增条目 |
