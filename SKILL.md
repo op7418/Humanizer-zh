@@ -331,12 +331,12 @@ metadata:
 **问题：** AI 聊天机器人将标题中的所有主要单词大写。
 
 **改写前：**
-> ## 战略谈判与全球伙伴关系
+> ## Strategic Negotiations And Global Partnerships
 
 **改写后：**
-> ## 战略谈判与全球伙伴关系
+> ## Strategic negotiations and global partnerships
 
-**注（中文适配）：** 中文标题不涉及大小写问题，此模式在中文中不适用，保留条目仅为与上游规则编号对应。
+**注（中文适配）：** 标题大写是英文特有的 AI 表达，保留英文原文供处理英文文本时使用；中文标题没有大小写概念，处理中文文本时无需检查此项。
 
 ---
 ### 18. 表情符号
@@ -464,7 +464,7 @@ metadata:
 **改写后：**
 > The cross-functional team delivered a high-quality, data-driven report. The team is cross functional, the report is high quality, and the methodology is data driven.
 
-**注（中文适配）：** 此规则为英文特有，中文没有连字符机制，本条目在中文中不直接适用，保留仅为与上游编号对应。中文的对应表现是"翻译腔合成词"：把英文 "data-driven" 机械翻成"数据驱动"、"以数据为导向"，在句子里堆砌"XX 化、XX 式、XX 驱动、XX 导向、基于 XX 的"。处理中文翻译文本时，检查这类合成词是否生硬，能否改回自然的动词结构（"数据驱动" → "靠数据做决定"）。
+**注（中文适配）：** 连字符是英文特有的 AI 表达，保留英文原文供处理英文文本时使用；中文没有连字符机制，对应表现是"翻译腔合成词"：把英文 "data-driven" 机械翻成"数据驱动"、"以数据为导向"，在句子里堆砌"XX 化、XX 式、XX 驱动、XX 导向、基于 XX 的"。处理中文翻译文本时，检查这类合成词是否生硬，能否改回自然的动词结构（"数据驱动" → "靠数据做决定"）。
 
 ---
 ### 27. 说服权威比喻
