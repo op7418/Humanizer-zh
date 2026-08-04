@@ -17,7 +17,7 @@ metadata:
 
 - **blader/humanizer**：`SKILL.md` 核心模式的来源（基于维基百科 Signs of AI writing）
 - **hardikpandya/stop-slop**：核心规则速查、快速检查清单、质量评分的灵感来源
-- **ossa-ma/tropes.fyi（gist: f3baa9d25154c33095e22272c631f5a1）**：AI Writing Tropes to Avoid 清单，补充 33 种模式之外的 AI 腔调（如 "Here's the kicker"、自问自答修辞问句、发明概念标签、虚假范围等），并为现有模式提供强化表述
+- **ossa-ma/tropes.fyi（gist: f3baa9d25154c33095e22272c631f5a1）**：AI Writing Tropes to Avoid 清单，补充现有规则之外的 AI 腔调，并为现有模式提供强化表述
 
 每次维护先确认上次同步的上游版本：在克隆的上游仓库中用 `git log --before="<上次同步日期>"` 定位引入时点版本，再用 `git log <引入版本>..HEAD` 列出其后所有更新。
 
