@@ -3,6 +3,7 @@
 > **声明：**
 > - 本项目的核心文件翻译自 [blader/humanizer](https://github.com/blader/humanizer/tree/main)（已同步至 v2.9.1）
 > - 实用工具部分（核心规则、快速检查清单、质量评分）参考了 [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop)
+> - AI 腔调补充清单参考了 [ossa-ma/tropes.fyi](https://tropes.fyi)（[gist](https://gist.github.com/ossa-ma/f3baa9d25154c33095e22272c631f5a1)）
 > - 原项目基于维基百科的 [Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) 指南
 
 ---
@@ -126,9 +127,22 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 
 （示例说明：删除"不仅仅是一种技术，而是……革命"（否定式排比 + 夸大意义）、"行业专家认为"（模糊归因，不编造具体来源）、"整个社会"（虚假范围）。博客场景可以注入声音，但声音是观点和反应，不是编造的事实细节。）
 
+#### 场景 4：改写技术评论（新增腔调）
+
+**输入：**
+```
+/humanizer-zh
+结果？这个行业正面临"选择悖论"：选项越多，用户反而越难做决定。苹果没有做打车，脸书没有做照片分享，亚马逊没有做云计算。想象一个世界，你的每一个工具都能互相协作。
+```
+
+**输出示例：**
+> 这个行业选项越多，用户反而越难做决定。你的每一个工具都能互相协作。
+
+（示例说明：删除"结果？"（自问自答修辞问句）、"选择悖论"（发明概念标签，换成冒号后的具体描述）、"苹果没有……脸书没有……亚马逊没有……"（历史类比堆砌）、"想象一个世界……"（"想象一个世界"式开场，直接陈述愿景）。改写只保留原文信息，不添加原文没有的事实。）
+
 ## 检测的 AI 写作模式
 
-本工具能够识别并修复 **33 种** AI 写作痕迹，分为五大类：
+本工具能够识别并修复 **40 种** AI 写作痕迹，分为五大类：
 
 ### 📝 内容模式（6种）
 1. 过度强调意义、遗产和更广泛的趋势
@@ -163,7 +177,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 24. 过度限定
 25. 通用积极结论
 
-### 🔍 深层模式（8种）
+### 🔍 深层模式（15种）
 26. 连字符词对过度使用（英文特有，中文对应翻译腔合成词）
 27. 说服权威比喻（"真正的问题是""归根结底"）
 28. 路标式预告（"让我们深入探讨"）
@@ -172,10 +186,17 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 31. 制造金句和断奏戏剧
 32. 格言公式
 33. 对话式修辞开场（"说实话？""你看"）
+34. 自问自答修辞问句（"结果？……"）
+35. 首语重复（排比句开头）
+36. 发明概念标签（"XX 悖论""XX 陷阱"）
+37. 死隐喻反复
+38. 历史类比堆砌
+39. "想象一个世界"式开场
+40. 分形总结（层层"预告-复述"）
 
 ### 🧭 检测指南
 
-除 33 种模式外，技能还包含**检测指南**，帮助你在改写时避免误伤人类写作：
+除 40 种模式外，技能还包含**检测指南**，帮助你在改写时避免误伤人类写作：
 
 - **不要误报**：哪些特征单独出现时不是 AI 信号（如单独的破折号、单独的弯引号、完美的语法）
 - **保留人类写作**：具体细节、复杂感受、时代印记等真人在写作的证据
@@ -193,7 +214,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 
 ### 基本流程
 
-1. **识别 AI 模式** - 对照 `SKILL.md` 中列出的 33 种模式扫描文本
+1. **识别 AI 模式** - 对照 `SKILL.md` 中列出的 40 种模式扫描文本
 2. **重写问题片段** - 用自然的表达替换 AI 痕迹
 3. **保留核心含义** - 确保信息完整性
 4. **维持适当语调** - 匹配文本应有的风格
@@ -268,6 +289,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 - [WikiProject AI Cleanup](https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup) - 维基百科 AI 清理项目
 - [blader/humanizer](https://github.com/blader/humanizer) - 原始英文版项目
 - [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) - 实用工具部分的灵感来源
+- [ossa-ma/tropes.fyi](https://tropes.fyi)（[gist](https://gist.github.com/ossa-ma/f3baa9d25154c33095e22272c631f5a1)）- AI 腔调补充清单的来源
 
 ## 许可
 
