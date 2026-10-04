@@ -7,3 +7,6 @@
 
 # Local evaluation transcripts and user-provided manuscript copies
 /tests/2026-09-23/
+
+# Python caches
+__pycache__/

@@ -1,51 +1,131 @@
 # Humanizer-zh：中文文本润色 Skill
 
+[![skills.sh](https://skills.sh/b/op7418/Humanizer-zh)](https://skills.sh/op7418/Humanizer-zh)
+
 编辑已有文章、评论和文档中的空话、重复及模板化表达，保留事实、确定程度和作者声音。输入是一段文字或一个文件，默认输出最终改写稿；没有问题的句子可以不改。
 
 这是一份由 Agent 读取执行的编辑指导，不是独立的检测程序。它不能证明文章由谁撰写，也不保证通过任何 AI 检测器。
 
+> 繁體中文說明請見 [README.zh-TW.md](README.zh-TW.md)。
+
+> 2026-09-24 更新：新增台湾繁体中文用语规则，以及 Codex、Hermes Agent、Pi、OpenClaw 等 Agent 的安装方式。
+>
 > 2026-09-23 更新：重写了规则和示例，明确保留事实、作者立场和文体。普通的排比、破折号和连接词不再一律修改。详见 [更新记录](CHANGELOG.md)。
 
 ## 安装
 
-### 方法一：通过 npx 一键安装（推荐）
+本 Skill 遵循 [Agent Skills](https://agentskills.io) 开放格式：一个 `SKILL.md` 加上 `references/` 参考文件。安装后的目录名必须是小写的 `humanizer-zh`，与 `SKILL.md` 中的 `name` 一致。`references/zh-tw.md` 需要随 Skill 一起安装，只下载单个 `SKILL.md` 会缺少台湾繁体规则。
+
+### 方法一：npx 一键安装（推荐）
+
+本 Skill 已收录于 [skills.sh](https://skills.sh/op7418/Humanizer-zh)，可用简写安装：
 
 ```bash
-npx skills add https://github.com/op7418/Humanizer-zh.git
+npx skills add op7418/Humanizer-zh
 ```
 
-这是最简单的安装方式，会自动将技能安装到正确的目录。
-
-### 方法二：通过 Git 克隆
+也可以指定安装范围和 Agent：
 
 ```bash
-# 克隆到 Claude Code 的 skills 目录
+# 交互式选择要安装的 Agent
+npx skills add https://github.com/op7418/Humanizer-zh -g
+
+# 或直接指定 Agent
+npx skills add https://github.com/op7418/Humanizer-zh -g -a claude-code codex hermes-agent pi openclaw
+```
+
+`-g` 安装到用户目录，所有项目可用；去掉 `-g` 则安装到当前项目。[skills CLI](https://github.com/vercel-labs/skills) 把文件放在 `~/.agents/skills/humanizer-zh`，再为需要的 Agent 建立符号链接。更新用 `npx skills update`。
+
+| Agent | `-a` 参数 | 调用方式 | `-g` 安装位置 |
+|---|---|---|---|
+| Claude Code | `claude-code` | `/humanizer-zh` | `~/.claude/skills/`（链接） |
+| OpenAI Codex | `codex` | `$humanizer-zh` 或 `/skills` | `~/.agents/skills/` |
+| Hermes Agent | `hermes-agent` | `/humanizer-zh` | `~/.hermes/skills/`（链接） |
+| Pi | `pi` | `/skill:humanizer-zh` | `~/.pi/agent/skills/`（链接） |
+| OpenClaw | `openclaw` | `/skill humanizer-zh` | `~/.openclaw/skills/`（链接） |
+| Gemini CLI | `gemini-cli` | 按描述自动启用 | `~/.agents/skills/` |
+| OpenCode | `opencode` | 按描述自动启用 | `~/.agents/skills/` |
+| GitHub Copilot | `github-copilot` | `/humanizer-zh` | `~/.agents/skills/` |
+| Cursor | `cursor` | `/humanizer-zh` | `~/.agents/skills/` |
+
+安装位置为 2026-09-24 以 skills CLI 实测的结果，CLI 改版后可能不同，以安装完成时的提示为准。所有 Agent 也都能按描述自动选用本 Skill。
+
+### 方法二：Git 克隆到各 Agent
+
+克隆时指定目录名 `humanizer-zh`。以后在该目录执行 `git pull` 即可更新。
+
+**Claude Code**
+
+```bash
 git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-zh
 ```
 
-### 方法三：手动安装
+在对话中输入 `/humanizer-zh`，或直接要求“用 humanizer-zh 润色”。
 
-1. 下载本项目的 ZIP 文件或克隆到本地
-2. 将 `Humanizer-zh` 文件夹复制到 Claude Code 的 skills 目录：
-   - **macOS/Linux**: `~/.claude/skills/`
-   - **Windows**: `%USERPROFILE%\.claude\skills\`
+**OpenAI Codex**
 
-3. 确保文件夹结构如下：
-   ```
-   ~/.claude/skills/humanizer-zh/
-   ├── SKILL.md       # 技能定义文件（中文版）
-   └── README.md      # 说明文档
-   ```
-
-### 验证安装
-
-重启 Claude Code 或重新加载 skills 后，在对话中输入：
-
-```
-/humanizer-zh
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.agents/skills/humanizer-zh
 ```
 
-如果安装成功，该技能将被激活。
+用 `$humanizer-zh` 明确调用，或输入 `/skills` 选择；Codex 也会按描述自动选用。旧位置 `~/.codex/skills/` 仍会读取，但官方已不推荐。Skill 没出现时重启 Codex。
+
+**Hermes Agent**
+
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.hermes/skills/humanizer-zh
+```
+
+在对话中输入 `/humanizer-zh`；已在运行的会话执行 `/reload-skills` 重新扫描。放在项目内的 `.hermes/skills/` 需要先执行 `hermes skills trust`。不要只用 `SKILL.md` 的原始网址安装，那样不会下载 `references/`。
+
+**Pi**
+
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.pi/agent/skills/humanizer-zh
+```
+
+用 `/skill:humanizer-zh` 调用；修改或新增 Skill 后执行 `/reload`。Pi 也会读取 `~/.agents/skills/`。
+
+**OpenClaw**
+
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.openclaw/skills/humanizer-zh
+```
+
+用 `/skill humanizer-zh` 调用；斜杠命令会把连字符换成下划线，也可以输入 `/humanizer_zh`。Skill 在会话开始时载入，新装的 Skill 在新会话中生效。
+
+**Gemini CLI、OpenCode、GitHub Copilot、Cursor**
+
+这些 Agent 都会读取跨工具目录 `~/.agents/skills/`：
+
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.agents/skills/humanizer-zh
+```
+
+### 多个 Agent 共用一份
+
+`~/.agents/skills/` 可被 Codex、Pi、OpenClaw、Gemini CLI、OpenCode、GitHub Copilot 和 Cursor 读取。Claude Code 与 Hermes Agent 默认不读这个目录，可用符号链接共用同一份文件：
+
+```bash
+git clone https://github.com/op7418/Humanizer-zh.git ~/.agents/skills/humanizer-zh
+mkdir -p ~/.claude/skills ~/.hermes/skills
+ln -s ~/.agents/skills/humanizer-zh ~/.claude/skills/humanizer-zh
+ln -s ~/.agents/skills/humanizer-zh ~/.hermes/skills/humanizer-zh
+```
+
+同一个 Skill 不要在多个会被同一 Agent 读取的目录各放一份，否则可能重复载入或互相覆盖。
+
+### Windows
+
+路径中的 `~` 换成 `%USERPROFILE%`，例如 `%USERPROFILE%\.claude\skills\humanizer-zh`。建立链接可在管理员命令提示符中使用 `mklink /D`，或直接复制整个目录。
+
+### 不支持 Skill 的 Agent
+
+在项目的 `AGENTS.md`（或该工具的规则文件）中加入：
+
+```markdown
+编辑或润色中文文字时，先读取 <安装路径>/humanizer-zh/SKILL.md，按其中的规则执行。
+```
 
 ## 使用
 
@@ -61,6 +141,15 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 ```text
 请用 humanizer-zh 润色 article.md 中的正文。
 ```
+
+台湾繁体文本：
+
+```text
+請用 humanizer-zh 潤飾這篇文章，改成台灣用語，保留原本的語氣：
+[原文]
+```
+
+输入是繁体中文时，Skill 会读取 [references/zh-tw.md](references/zh-tw.md)，处理对岸用语、简转繁错字、「」标点和翻译腔；港澳繁体保留原地区用语，不擅自做简繁转换。
 
 只审阅时说明“给出建议，不修改文件”。有作者样本时可一并提供，Skill 会借鉴表达习惯，但不会把样本中的经历、数据或观点搬入原文。
 
@@ -113,7 +202,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 
 ## 模式目录
 
-保留 31 个检查点，沿用 PR #39 的 A–F 分类，便于对照。这是编辑问题清单，不是作者身份检测标准。
+共 39 个检查点：1–31 沿用 PR #39 的 A–F 分类；32–39 为 G 组，来自 [lieflat-less-ai-tone](https://github.com/larashero3-dotcom/lieflat-less-ai-tone) 的语料实测（629 篇、约 283 万字，五个模型对照人类写作）。这是编辑问题清单，不是作者身份检测标准。
 
 | 分类 | 检查点 |
 |---|---|
@@ -123,12 +212,15 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 | D：公式化排版（19–21） | 无效粗体、装饰性标题、引号和标点 |
 | E：聊天与草稿残留（22–25） | 客服腔、重复免责与猜测填充、首句复读标题、编辑过程残留 |
 | F：中文补充检查（26–31） | 长定语、“进行＋动词”、被字句堆叠、四字词排比、万能背景、套话收尾 |
+| G：语料实测特征（32–39） | 段首零回指评论、冒号滥用、序数词小标题、拟人化喻体、概括盖掉已有数据、顿号罗列、相邻句同构、四种译文句式 |
 
-每条包括修改条件、前后示例和保留边界，详见 [SKILL.md](SKILL.md)。
+同一份实测也显示，比喻、正文问句、句内排比、正文里的“首先……其次”、句长参差等在人类文本中同样常见甚至更多。`SKILL.md` 把它们列为“实测不构成修改理由”，避免越改越不像人写的。
+
+`SKILL.md` 中每条只保留一行修改条件与保留边界；前后示例和保留示例在 [references/patterns.md](references/patterns.md)，Agent 不确定时再读取。
 
 ## 验证
 
-[测试说明](tests/README.md)包含 18 个短文本案例、一个 Markdown 文件样例和结构检查脚本。本次更新还做了旧版与修订版的长文对照，检查数字、条件、归因、作者态度和文件结构。单次、有限样例不能代表所有模型和文体；不能用字数下降或模型自评分证明效果。
+[测试说明](tests/README.md)包含 32 个短文本案例（其中 7 个为繁体、7 个针对 G 组）、一个 Markdown 文件样例、结构检查脚本和台湾繁体用语检查脚本。本次更新还做了旧版与修订版的长文对照，检查数字、条件、归因、作者态度和文件结构。单次、有限样例不能代表所有模型和文体；不能用字数下降或模型自评分证明效果。
 
 ## 来源与许可
 
@@ -136,6 +228,7 @@ git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-
 - [Humanizer-zh PR #39](https://github.com/op7418/Humanizer-zh/pull/39)：本次修订的结构基础与中文检查点来源。
 - [Humanizer-zh PR #34](https://github.com/op7418/Humanizer-zh/pull/34)：示例保真修复的对照参考。本修订没有直接合并该分支。
 - [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop)：简洁表达与编辑检查的参考来源。
+- [larashero3-dotcom/lieflat-less-ai-tone](https://github.com/larashero3-dotcom/lieflat-less-ai-tone)（MIT）：G 组检查点、“实测不构成修改理由”及倍数数据的来源，许可见 [licenses/](licenses/lieflat-less-ai-tone.txt)。
 - [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)：原项目的观察来源。
 
 遵循仓库中的 [MIT License](LICENSE)。
