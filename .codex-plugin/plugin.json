@@ -1,0 +1,17 @@
+{
+  "name": "humanizer-zh",
+  "version": "1.0.0",
+  "description": "编辑中文文本中的空话、重复及模板化表达，保留事实、确定程度和作者声音。",
+  "author": { "name": "歸藏" },
+  "homepage": "https://github.com/op7418/Humanizer-zh",
+  "repository": "https://github.com/op7418/Humanizer-zh",
+  "license": "MIT",
+  "skills": "./.",
+  "interface": {
+    "displayName": "Humanizer-zh",
+    "shortDescription": "中文文本润色，保留原意与作者声音",
+    "developerName": "歸藏",
+    "category": "Productivity",
+    "defaultPrompt": "请用 humanizer-zh 润色以下中文文本，保留事实、确定程度和作者声音。"
+  }
+}

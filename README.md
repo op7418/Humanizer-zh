@@ -8,44 +8,115 @@
 
 ## 安装
 
-### 方法一：通过 npx 一键安装（推荐）
+本仓库只有根目录的一份 `SKILL.md`。Codex 和 Claude Code 通过各自的 marketplace 安装插件，Gemini CLI 直接安装 Skill；不需要 MCP 服务或额外的运行依赖。请使用支持下述命令的客户端版本。
+
+### Codex（桌面端 / CLI）
+
+该单文件插件布局已在 Codex CLI **0.162.1** 验证。旧版（例如 0.142.5）会忽略指向根目录的技能路径，即使显示安装成功也无法加载技能；此时升级客户端，或使用下方的独立 Skill 安装方式。桌面端也需要其内置 Codex 支持该布局。
+
+在支持的 Codex 桌面端的插件页面选择 **Add marketplace（添加市场）**，输入 `https://github.com/op7418/Humanizer-zh`，然后安装并启用 `humanizer-zh`。市场标识为 `humanizer-zh-marketplace`。
+
+也可在终端执行：
+
+```bash
+codex plugin marketplace add op7418/Humanizer-zh
+codex plugin add humanizer-zh@humanizer-zh-marketplace
+```
+
+CLI 和桌面端需要使用同一用户及 Codex 配置目录。在 WSL 或另一台机器上注册的市场不会自动出现在 Windows 桌面端。
+
+安装后新建会话，输入：
+
+```text
+请用 $humanizer-zh:humanizer-zh 润色下面的中文文本：
+[原文]
+```
+
+可用 `codex plugin list --marketplace humanizer-zh-marketplace --json` 检查插件是否已安装、启用。桌面端未发现技能时，重启应用后新建会话。
+
+旧版 Codex 或不使用插件时，可在会话中让内置安装器安装独立 Skill：
+
+```text
+使用 $skill-installer 安装 https://github.com/op7418/Humanizer-zh 根目录的 humanizer-zh 技能。
+```
+
+独立 Skill 安装后重启 Codex，使用 `$humanizer-zh` 调用。
+
+### Claude Code
+
+在终端执行：
+
+```bash
+claude plugin marketplace add op7418/Humanizer-zh
+claude plugin install humanizer-zh@humanizer-zh-marketplace
+```
+
+也可在 Claude Code 会话中依次执行 `/plugin marketplace add op7418/Humanizer-zh` 和 `/plugin install humanizer-zh@humanizer-zh-marketplace`。
+
+重启会话后，用插件的带命名空间命令调用：
+
+```text
+/humanizer-zh:humanizer-zh 请润色下面的中文文本：
+[原文]
+```
+
+可用 `claude plugin list` 检查安装状态。作为独立 Skill 安装时，调用命令仍为 `/humanizer-zh`。
+
+### Gemini CLI
+
+使用原生 Skill 安装命令：
+
+```bash
+gemini skills install https://github.com/op7418/Humanizer-zh.git
+```
+
+默认安装到用户目录；仅供当前项目使用时加上 `--scope workspace`。按客户端提示确认安装，在已有会话中执行 `/skills reload`，再用 `/skills list` 检查是否出现 `humanizer-zh`。
+
+调用时直接说明“请用 humanizer-zh 润色下面的中文文本”，然后粘贴原文。
+
+### 通用 Skill 安装（保留已有方式）
 
 ```bash
 npx skills add https://github.com/op7418/Humanizer-zh.git
 ```
 
-这是最简单的安装方式，会自动将技能安装到正确的目录。
+按安装器提示选择客户端。也可下载 ZIP 或克隆仓库，将根目录的 `SKILL.md` 单独复制到对应客户端的用户 Skill 目录：
 
-### 方法二：通过 Git 克隆
+| 客户端 | 文件位置（macOS / Linux） | 文件位置（Windows） |
+|---|---|---|
+| Codex | `~/.agents/skills/humanizer-zh/SKILL.md` | `%USERPROFILE%\.agents\skills\humanizer-zh\SKILL.md` |
+| Claude Code | `~/.claude/skills/humanizer-zh/SKILL.md` | `%USERPROFILE%\.claude\skills\humanizer-zh\SKILL.md` |
+| Gemini CLI | `~/.gemini/skills/humanizer-zh/SKILL.md` | `%USERPROFILE%\.gemini\skills\humanizer-zh\SKILL.md` |
 
-```bash
-# 克隆到 Claude Code 的 skills 目录
-git clone https://github.com/op7418/Humanizer-zh.git ~/.claude/skills/humanizer-zh
+复制后重启客户端会话或重新加载技能。选择一种安装方式即可，避免同时安装插件和同名独立 Skill。
+
+### 更新与卸载
+
+以下命令对应上面的原生安装方式：
+
+| 客户端 | 更新 | 卸载 |
+|---|---|---|
+| Codex | `codex plugin marketplace upgrade humanizer-zh-marketplace`，再执行 `codex plugin add humanizer-zh@humanizer-zh-marketplace` | `codex plugin remove humanizer-zh@humanizer-zh-marketplace` |
+| Claude Code | `claude plugin marketplace update humanizer-zh-marketplace`，再执行 `claude plugin update humanizer-zh@humanizer-zh-marketplace` | `claude plugin uninstall humanizer-zh@humanizer-zh-marketplace` |
+| Gemini CLI | 再次执行 `gemini skills install https://github.com/op7418/Humanizer-zh.git`，按提示确认覆盖 | `gemini skills uninstall humanizer-zh` |
+
+更新后重启会话或重新加载技能。Gemini 使用 `--scope workspace` 安装时，更新和卸载也使用相同作用域；手动安装则替换或删除对应的 `humanizer-zh` 目录。
+
+安装机制参考：[Codex 插件与 marketplace](https://developers.openai.com/plugins/build/plugins)、[Claude Code 插件发布](https://code.claude.com/docs/en/plugins/publish)、[Gemini CLI Skills](https://geminicli.com/docs/cli/skills/)。
+
+### 插件结构
+
+```text
+Humanizer-zh/
+├── SKILL.md                        # 唯一的技能定义
+├── .agents/plugins/marketplace.json # Codex 市场
+├── .codex-plugin/plugin.json        # skills: "./."，指向根目录
+└── .claude-plugin/
+    ├── marketplace.json            # Claude Code 市场
+    └── plugin.json                 # skills: "./"，指向根目录
 ```
 
-### 方法三：手动安装
-
-1. 下载本项目的 ZIP 文件或克隆到本地
-2. 将 `Humanizer-zh` 文件夹复制到 Claude Code 的 skills 目录：
-   - **macOS/Linux**: `~/.claude/skills/`
-   - **Windows**: `%USERPROFILE%\.claude\skills\`
-
-3. 确保文件夹结构如下：
-   ```
-   ~/.claude/skills/humanizer-zh/
-   ├── SKILL.md       # 技能定义文件（中文版）
-   └── README.md      # 说明文档
-   ```
-
-### 验证安装
-
-重启 Claude Code 或重新加载 skills 后，在对话中输入：
-
-```
-/humanizer-zh
-```
-
-如果安装成功，该技能将被激活。
+Gemini CLI 直接读取根目录技能，无需扩展清单。修改技能时只编辑 `SKILL.md`；发布插件更新时同步修改两份插件清单和 Claude Code 市场条目中的 `version`。
 
 ## 使用
 

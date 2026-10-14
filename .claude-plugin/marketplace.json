@@ -1,0 +1,20 @@
+{
+  "name": "humanizer-zh-marketplace",
+  "owner": { "name": "歸藏" },
+  "metadata": {
+    "description": "Humanizer-zh 中文文本润色插件市场。"
+  },
+  "plugins": [
+    {
+      "name": "humanizer-zh",
+      "source": "./",
+      "description": "编辑中文文本中的空话、重复及模板化表达，保留事实、确定程度和作者声音。",
+      "version": "1.0.0",
+      "author": { "name": "歸藏" },
+      "homepage": "https://github.com/op7418/Humanizer-zh",
+      "repository": "https://github.com/op7418/Humanizer-zh",
+      "license": "MIT",
+      "category": "productivity"
+    }
+  ]
+}
